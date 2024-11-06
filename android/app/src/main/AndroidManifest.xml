@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.course_work.my_simple_note">
     <application
         android:label="my_simple_note"
         android:name="${applicationName}"

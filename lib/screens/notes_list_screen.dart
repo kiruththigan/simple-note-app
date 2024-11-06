@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_note/config/color_config.dart';
 import 'package:my_simple_note/models/Note.dart';
 import 'package:my_simple_note/screens/note_add_screen.dart';
 import 'package:my_simple_note/screens/note_view_screen.dart';
@@ -72,14 +73,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
             const EdgeInsets.only(top: 40, right: 16, bottom: 16, left: 16),
         // color: Colors.lightBlue.withOpacity(0.2),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF36D1DC).withOpacity(0.78),
-              Color(0xFF5B86E5),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: backgroundColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +82,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
                 style: TextStyle(
                     fontSize: 50,
                     // color: Color(0xFF7C3AED),
-                    color: Colors.black,
+                    color: titleColor,
                     fontFamily: "rubik")),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,61 +95,54 @@ class _NotesListScreenState extends State<NotesListScreen> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.44),
+                          color: searchBackgroundColor,
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset:
-                                  Offset(0, 3),
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 0,
+                              blurRadius: 0,
+                              offset: const Offset(0, 0),
                             ),
                           ],
                         ),
                         child: TextField(
+                          style: searchInputStyle,
+                          cursorColor: searchTextColor,
                           onChanged: (value) {
                             setState(() {
                               searchKey = value;
                             });
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Search notes...",
-                            hintStyle: TextStyle(color: Colors.black87),
+                            hintStyle: TextStyle(color: searchTextColor),
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: EdgeInsets.all(10.0),
                               child: Icon(
                                 Icons.search,
-                                color: Colors.black87,
+                                color: searchTextColor,
                               ),
                             ),
-                            suffixIcon: searchKey.isNotEmpty
-                                ? IconButton(
-                                    icon: Icon(Icons.clear, color: Colors.grey),
-                                    onPressed: () {
-                                      setState(() {
-                                        searchKey = "";
-                                      });
-                                    },
-                                  )
-                                : null,
                             border: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 15.0),
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 15.0),
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 15,),
+                SizedBox(
+                  height: 15,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     buildQuickActionCard(
                       title: "All",
                       icon: Icons.notes,
-                      color: Colors.blueGrey,
+                      color: quickActionColor,
                       isActive: !isPinned,
                       onTap: () {
                         setState(() {
@@ -169,7 +156,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
                     buildQuickActionCard(
                       title: "Pinned",
                       icon: Icons.push_pin,
-                      color: Colors.blueGrey,
+                      color: quickActionColor,
                       isActive: isPinned,
                       onTap: () {
                         setState(() {
@@ -210,7 +197,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
                                 entry.key,
                                 style: const TextStyle(
                                     fontSize: 18,
-                                    color: Colors.black87,
+                                    color: noteMapKeyTextColor,
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
@@ -240,19 +227,19 @@ class _NotesListScreenState extends State<NotesListScreen> {
                                       );
                                     },
                                     tileColor: isPinned || entry.key == "Pinned"
-                                        ? Colors.teal.shade900.withOpacity(0.77)
-                                        : Colors.blueGrey.shade700,
+                                        ? notePinnedCardBackgroundColor
+                                        : noteCardBackgroundColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     title: Text(note.title!),
                                     titleTextStyle: const TextStyle(
-                                        color: Colors.white,
+                                        color: noteTitleTextColor,
                                         fontSize: 20,
                                         fontFamily: "itim"),
                                     subtitle: Text(note.description!),
                                     subtitleTextStyle: TextStyle(
-                                        color: Colors.white.withOpacity(0.64),
+                                        color: noteSubtitleTextColor,
                                         fontSize: 18,
                                         fontFamily: "chakra"),
                                     trailing: IconButton(
@@ -269,8 +256,8 @@ class _NotesListScreenState extends State<NotesListScreen> {
                                               : Icons.push_pin_outlined,
                                           size: 30,
                                           color: note.isPinned!
-                                              ? Colors.blueGrey.shade800
-                                              : Colors.black54),
+                                              ? notePinnedActiveColor
+                                              : notePinnedInactiveColor),
                                     ),
                                   ),
                                 ),
@@ -291,7 +278,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 25.0,
-        backgroundColor: Colors.black87,
+        backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         onPressed: () {
           Navigator.push(context,
@@ -299,7 +286,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
         },
         child: const Icon(
           Icons.add,
-          color: Colors.white,
+          color: buttonTextColor,
         ),
       ),
     );

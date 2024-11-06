@@ -3,6 +3,8 @@ import 'package:my_simple_note/db_helper/database_handler.dart';
 import 'package:my_simple_note/models/Note.dart';
 import 'package:my_simple_note/screens/notes_list_screen.dart';
 
+import '../config/color_config.dart';
+
 class NoteAddScreen extends StatefulWidget {
   const NoteAddScreen({super.key});
 
@@ -37,7 +39,7 @@ class _NoteAddScreenState extends State<NoteAddScreen> {
         content: Text('Successfully created.'),
         showCloseIcon: true,
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.teal,
+        backgroundColor: successMessageBackground,
       ),
     );
   }
@@ -55,14 +57,7 @@ class _NoteAddScreenState extends State<NoteAddScreen> {
       body: Container(
         // color: Colors.lightBlue.withOpacity(0.2),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF36D1DC).withOpacity(0.78),
-              Color(0xFF5B86E5),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: backgroundColor,
         ),
         padding:
             const EdgeInsets.only(top: 40, right: 16, bottom: 16, left: 16),
@@ -78,25 +73,29 @@ class _NoteAddScreenState extends State<NoteAddScreen> {
                 )),
             const Text("New Note",
                 style: TextStyle(
-                    fontSize: 50,
-                    color: Colors.black,
-                    fontFamily: "rubik")),
+                    fontSize: 50, color: titleColor, fontFamily: "rubik")),
             const SizedBox(
               height: 20,
             ),
             TextField(
+              style: inputStyle,
               controller: titleController,
               decoration: const InputDecoration(
-                  labelText: "Title", border: OutlineInputBorder()),
+                  labelText: "Title",
+                  labelStyle: inputLabelStyle,
+                  border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 30,
             ),
             TextField(
               maxLines: 4,
+              style: inputStyle,
               controller: descriptionController,
               decoration: const InputDecoration(
-                  labelText: "Description", border: OutlineInputBorder()),
+                  labelText: "Description",
+                  labelStyle: inputLabelStyle,
+                  border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 30,
@@ -115,13 +114,13 @@ class _NoteAddScreenState extends State<NoteAddScreen> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {
-                        return Colors.black87;
+                        return buttonColor;
                       },
                     ),
                   ),
                   child: const Text(
                     "Save",
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: buttonTextColor, fontSize: 17),
                   )),
             )
           ],

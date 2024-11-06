@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_note/config/color_config.dart';
 import 'package:my_simple_note/screens/notes_list_screen.dart';
 import '../components/build_quick_action_card.dart';
 import '../db_helper/database_handler.dart';
@@ -48,7 +49,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
         content: Text('Successfully updated.'),
         showCloseIcon: true,
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.teal,
+        backgroundColor: successMessageBackground,
       ),
     );
   }
@@ -82,7 +83,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                     content: Text('Successfully deleted.'),
                     showCloseIcon: true,
                     behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.teal,
+                    backgroundColor: successMessageBackground,
                   ),
                 );
                 Navigator.push(
@@ -123,14 +124,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
       body: Container(
         // color: Colors.lightBlue.withOpacity(0.2),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF36D1DC).withOpacity(0.78),
-              Color(0xFF5B86E5),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: backgroundColor,
         ),
         padding:
             const EdgeInsets.only(top: 40, right: 16, bottom: 16, left: 16),
@@ -150,7 +144,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                 const Text("Edit Note",
                     style: TextStyle(
                         fontSize: 50,
-                        color: Colors.black,
+                        color: titleColor,
                         fontFamily: "rubik")),
               ],
             ),
@@ -163,7 +157,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                 buildQuickActionCard(
                   title: isPinned ? "Unpin" : "Pin",
                   icon: isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                  color: Colors.orange,
+                  color: pinQuickActionColor,
                   onTap: () {
                     setState(() {
                       isPinned = !isPinned;
@@ -176,7 +170,7 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                 buildQuickActionCard(
                   title: "Delete",
                   icon: Icons.delete,
-                  color: Colors.pink,
+                  color: deleteQuickActionColor,
                   onTap: () {
                     _showDeleteConfirmation(widget.note);
                   },
@@ -187,18 +181,24 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
               height: 40,
             ),
             TextField(
+              style: inputStyle,
               controller: titleController,
               decoration: const InputDecoration(
-                  labelText: "Title", border: OutlineInputBorder()),
+                  labelText: "Title",
+                  labelStyle: inputLabelStyle,
+                  border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 30,
             ),
             TextField(
               maxLines: 4,
+              style: inputStyle,
               controller: descriptionController,
               decoration: const InputDecoration(
-                  labelText: "Description", border: OutlineInputBorder()),
+                  labelText: "Description",
+                  labelStyle: inputLabelStyle,
+                  border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 30,
@@ -218,13 +218,13 @@ class _NoteViewScreenState extends State<NoteViewScreen> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                       (Set<MaterialState> states) {
-                        return Colors.black87;
+                        return buttonColor;
                       },
                     ),
                   ),
                   child: const Text(
                     "Update",
-                    style: TextStyle(color: Colors.white, fontSize: 17),
+                    style: TextStyle(color: buttonTextColor, fontSize: 17),
                   )),
             )
           ],
